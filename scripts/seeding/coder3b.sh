@@ -14,15 +14,22 @@ export RAY_LOGGING_LEVEL=DEBUG
 # 🔍 Show full Hydra stack traces
 export HYDRA_FULL_ERROR=1  
 
-# 📁 Define default paths for seed outputs (can be overridden externally)
-OUTPUT_SEED_PATH=${OUTPUT_SEED_PATH:-data/3b_coder_seed_io.jsonl}
-OUTPUT_ERROR_SEED_PATH=${OUTPUT_ERROR_SEED_PATH:-data/3b_coder_error_seed_io.jsonl}
-OUTPUT_CODE_F_SEED_PATH=${OUTPUT_CODE_F_SEED_PATH:-data/3b_coder_code_f_seed_io.jsonl}
+
+# 📂 Output directory for this experiment
+OUTPUT_DIR=${OUTPUT_DIR:-data_exp1}
+mkdir -p "$OUTPUT_DIR"
+
+# 📁 Define default output paths based on OUTPUT_DIR
+OUTPUT_SEED_PATH=${OUTPUT_SEED_PATH:-$OUTPUT_DIR/3b_coder_seed_io.jsonl}
+OUTPUT_ERROR_SEED_PATH=${OUTPUT_ERROR_SEED_PATH:-$OUTPUT_DIR/3b_coder_error_seed_io.jsonl}
+OUTPUT_CODE_F_SEED_PATH=${OUTPUT_CODE_F_SEED_PATH:-$OUTPUT_DIR/3b_coder_code_f_seed_io.jsonl}
 
 # 🖨️ Print resolved paths
+echo "📂 OUTPUT_DIR: $OUTPUT_DIR"
 echo "🌱 OUTPUT_SEED_PATH: $OUTPUT_SEED_PATH"
 echo "❌ OUTPUT_ERROR_SEED_PATH: $OUTPUT_ERROR_SEED_PATH"
 echo "🧪 OUTPUT_CODE_F_SEED_PATH: $OUTPUT_CODE_F_SEED_PATH"
+
 
 # 🚀 Ready to roll!
 
