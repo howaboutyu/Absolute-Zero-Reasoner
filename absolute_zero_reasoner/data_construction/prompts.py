@@ -412,3 +412,34 @@ def get_code_problem_predictor_prompt(problem_type: str, snippet: str, input_arg
         return code_error_predictor_prompt.format(snippet=snippet, input_args=input_args)
     else:
         raise ValueError(f"Invalid problem type: {problem_type}")
+
+
+def main():
+    # Sample data to simulate usage
+    problem_type = "code_i"
+    reference_snippets = [
+        {
+            "snippet": "def f(a):\n    return a * 2",
+            "input": "3",
+            "output": "6"
+        }
+    ]
+    banned_keywords = ["random", "print", "time"]
+    banned_assertion_keywords = ["assert", "raise"]
+    composite_functions = [{"snippet": "def g_0(x):\n    return x + 1"}]
+    
+    prompt = get_code_problem_generator_prompt(
+        problem_type=problem_type,
+        reference_snippets=reference_snippets,
+        banned_keywords=banned_keywords,
+        banned_assertion_keywords=banned_assertion_keywords,
+        composite_functions=composite_functions,
+        remove_after_return=True,
+        remove_input_from_snippet=True
+    )
+
+    print("\n=== GENERATED PROMPT ===\n")
+    print(prompt)
+
+if __name__ == '__main__':
+    main()
