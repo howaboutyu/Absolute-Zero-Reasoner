@@ -1,14 +1,30 @@
+#!/bin/bash
+
 set -x
 
+# ⚡ Use flash attention for vLLM
 export VLLM_ATTENTION_BACKEND=FLASH_ATTN
-export RAY_memory_monitor_refresh_ms=0
-export RAY_LOGGING_LEVEL=DEBUG
-export HYDRA_FULL_ERROR=1
 
-# Define default paths, allowing overrides via environment variables
+# 🧠 Disable Ray memory monitoring spam
+export RAY_memory_monitor_refresh_ms=0
+
+# 🐛 Enable Ray debug logs
+export RAY_LOGGING_LEVEL=DEBUG
+
+# 🔍 Show full Hydra stack traces
+export HYDRA_FULL_ERROR=1  
+
+# 📁 Define default paths for seed outputs (can be overridden externally)
 OUTPUT_SEED_PATH=${OUTPUT_SEED_PATH:-data/3b_coder_seed_io.jsonl}
 OUTPUT_ERROR_SEED_PATH=${OUTPUT_ERROR_SEED_PATH:-data/3b_coder_error_seed_io.jsonl}
 OUTPUT_CODE_F_SEED_PATH=${OUTPUT_CODE_F_SEED_PATH:-data/3b_coder_code_f_seed_io.jsonl}
+
+# 🖨️ Print resolved paths
+echo "🌱 OUTPUT_SEED_PATH: $OUTPUT_SEED_PATH"
+echo "❌ OUTPUT_ERROR_SEED_PATH: $OUTPUT_ERROR_SEED_PATH"
+echo "🧪 OUTPUT_CODE_F_SEED_PATH: $OUTPUT_CODE_F_SEED_PATH"
+
+# 🚀 Ready to roll!
 
 python -m absolute_zero_reasoner.main_azr_ppo \
     data.shuffle=True \
@@ -29,7 +45,7 @@ python -m absolute_zero_reasoner.main_azr_ppo \
     actor_rollout_ref.actor.use_kl_loss=False \
     actor_rollout_ref.actor.kl_loss_coef=0.0 \
     actor_rollout_ref.actor.kl_loss_type=low_var_kl \
-    actor_rollout_ref.actor.ulysses_sequence_parallel_size=4 \
+    actor_rollout_ref.actor.ulysses_sequence_parallel_size=2 \
     actor_rollout_ref.model.enable_gradient_checkpointing=True \
     actor_rollout_ref.model.pretrained_tokenizer=True \
     actor_rollout_ref.actor.fsdp_config.param_offload=False \
