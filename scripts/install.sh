@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get update && sudo apt-get install vim htop -y
+apt-get update && apt-get install vim htop -y
 
 # 🚀 Navigate to verl and install in editable mode
 cd verl
